@@ -4,7 +4,6 @@ import Nav from "./Nav"
 export default function Layout({children}) {
   const { data: session } = useSession()
 
-
   return (
       <div className={`bg-emerald-900 w-screen min-h-screen`}>
           {session ?
