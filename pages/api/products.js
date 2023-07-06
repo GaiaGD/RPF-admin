@@ -10,13 +10,19 @@ export default async function handler(req, res) {
     const {method} = req
     await mongooseConnect()
 
+
+    if (method === 'GET') {
+      res.json( await Product.find())
+    }
+
+    
     if (method === 'POST'){
-      console.log(req.body)
       const {name, description, price} = req.body
       const productDoc = await Product.create({
         name, description, price,
       })
       res.json(productDoc)
     }
+
   }
   

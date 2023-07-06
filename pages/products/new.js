@@ -1,39 +1,32 @@
 import Layout from "../components/Layout";
 import { useState } from "react";
-import { useRouter } from "next/router";
 import axios from 'axios';
+import { useRouter } from "next/router";
 
 export default function NewProduct () {
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
+    const [goToProducts, setGoToProducts] = useState(false)
+
+    const router = useRouter()
 
     async function createProduct(e) {
         e.preventDefault()
         const data = {name, description, price}
         await axios.post('/api/products', data)
-        .then((response) => {
-            console.log("success")
-        }).catch((error) => {
-            if (error.response) { // status code out of the range of 2xx
-                console.log("first")
-                console.log("Data :" , error.response);
-                console.log("Status :" + error.response.status);
-              } else if (error.request) { // The request was made but no response was received
-                console.log("second")
-                console.log(error.request);
-              } else {// Error on setting up the request
-                console.log("third")
-                console.log('Error', error.message);
-              }
-        })
+        setGoToProducts(true)
     }
+
+    if (goToProducts) {
+        router.push('/products')
+    }
+
 
     return (
         <Layout>
             <div>
-                
                 <div className="pb-5">
                     <h1 className="text-xl mb-2">
                         New Product
