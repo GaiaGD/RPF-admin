@@ -7,7 +7,6 @@ import { useState, useEffect } from "react";
 export default function EditProductPage (){
     const router = useRouter()
     const {id} = router.query
-    console.log(id)
 
     const [productInfo, setProductInfo] = useState(null)
 
@@ -20,7 +19,6 @@ export default function EditProductPage (){
             setProductInfo(response.data)
         })
     }, [id])
-    console.log(productInfo)
 
     return (
         <Layout>

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useRouter } from "next/router";
 
 export default function ProductForm ({
+    _id,
     name: existingName,
     description: existingDescription,
     price: existingPrice
@@ -13,17 +14,22 @@ export default function ProductForm ({
     const [price, setPrice] = useState(existingPrice || '')
     const [goToProducts, setGoToProducts] = useState(false)
 
-    console.log(name)
-    console.log(existingName)
-
-
     const router = useRouter()
 
+    console.log({_id})
 
-    async function createProduct(e) {
+    async function saveProduct(e) {
         e.preventDefault()
         const data = {name, description, price}
-        await axios.post('/api/products', data)
+
+        if (_id) {
+            //update product bringing id too along to match it with existing id
+            await axios.put('/api/products', {...data, _id})
+
+        } else {
+            // push new product
+            await axios.post('/api/products', data)
+        }
         setGoToProducts(true)
     }
 
@@ -48,7 +54,7 @@ export default function ProductForm ({
                     <input placeholder="e.g. $1000" value={price} onChange={e => setPrice(e.target.value)} id="newproduct-price" type="number" className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500" />
                 </div>
 
-                <button type="submit" className='bg-emerald-900 text-white p-2 px-4 rounded-md' onClick={createProduct}>Save</button>
+                <button type="submit" className='bg-emerald-900 text-white p-2 px-4 rounded-md' onClick={saveProduct}>Save</button>
 
             </div>
     )

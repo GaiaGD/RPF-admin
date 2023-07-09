@@ -1,3 +1,5 @@
+// THIS IS THE DASHBOARD
+
 import { useSession } from "next-auth/react"
 import Layout from "./components/Layout"
 import Image

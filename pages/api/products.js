@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     const {method} = req
     await mongooseConnect()
 
-
+    // this retrieves the products
     if (method === 'GET') {
       if(req.query?.id){
         res.json(await Product.findOne({_id:req.query.id}))
@@ -18,13 +18,20 @@ export default async function handler(req, res) {
       }
     }
 
-    
+    // this pushes the product
     if (method === 'POST'){
       const {name, description, price} = req.body
       const productDoc = await Product.create({
         name, description, price,
       })
       res.json(productDoc)
+    }
+
+    // this update the product 
+    if (method === "PUT"){
+      const {name, description, price, _id} = req.body
+      await Product.updateOne({_id}, {name, description, price})
+      res.json(true)
     }
 
   }
