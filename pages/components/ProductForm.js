@@ -6,7 +6,8 @@ export default function ProductForm ({
     _id,
     name: existingName,
     description: existingDescription,
-    price: existingPrice
+    price: existingPrice,
+    images
 }) {
 
     const [name, setName] = useState(existingName || "")
@@ -35,6 +36,18 @@ export default function ProductForm ({
         router.push('/products')
     }
 
+    // we can't send the image as json
+    async function uploadImages(e){
+        const files = e.target?.files
+        if(files?.length > 0){
+            const data = new FormData()
+            files.forEach(file => data.append('file', file))
+            // we have to create a separate api
+            const res = await axios.post('/api/upload')
+            // console.log(res)
+        }
+    }
+
 
     return (
             <div className="mt-6">
@@ -42,6 +55,26 @@ export default function ProductForm ({
                 <div className="mb-3">
                     <label className="block mb-2 text-sm font-medium text-emerald-900">Product Name</label>
                     <input placeholder="e.g. Pond" value={name} onChange={e => setName(e.target.value)} id="newproduct-name" type="text" className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500" />
+                </div>
+
+                <div className="mb-3">
+                    <label className="block mb-2 text-sm font-medium text-emerald-900">Photos</label>
+                    <div className="mb-6">
+                        <label className="cursor-pointer w-24 h-24 flex items-center justify-center text-gray-500 rounded-lg bg-gray-100">
+                            <div>
+                                <div className="flex justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15" />
+                                    </svg>
+                                </div>
+                                <p className="text-sm mt-1">Upload</p>
+                            </div>
+                            <input type="file" onChange={uploadImages} className="hidden"/>
+                        </label>
+                        {!images?.length && (
+                            <small>No pictures for this product</small>
+                        )}
+                    </div>
                 </div>
                 <div className="mb-3">
                     <label className="block mb-2 text-sm font-medium text-emerald-900">Product Description</label>
