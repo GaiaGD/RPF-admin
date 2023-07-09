@@ -7,19 +7,21 @@ export default function ProductForm ({
     name: existingName,
     description: existingDescription,
     price: existingPrice,
-    images
+    images: existingImages
 }) {
 
     const [name, setName] = useState(existingName || "")
     const [description, setDescription] = useState(existingDescription || '')
     const [price, setPrice] = useState(existingPrice || '')
+    const [images, setImages] = useState(existingImages || '')
+
     const [goToProducts, setGoToProducts] = useState(false)
 
     const router = useRouter()
 
     async function saveProduct(e) {
         e.preventDefault()
-        const data = {name, description, price}
+        const data = {name, description, price, images}
 
         if (_id) {
             //update product bringing id too along to match it with existing id
@@ -41,10 +43,14 @@ export default function ProductForm ({
         const files = e.target?.files
         if(files?.length > 0){
             const data = new FormData()
-            files.forEach(file => data.append('file', file))
-            // we have to create a separate api
-            const res = await axios.post('/api/upload')
-            // console.log(res)
+            for(const file of files){
+                data.append('file', file)
+            }
+            // we have to create a separate api and header to stop axios to parse it like json
+            const res = await axios.post('/api/upload', data)
+            setImages(oldImages => {
+                return [...oldImages, ...res.data.links]
+            })
         }
     }
 
@@ -59,7 +65,14 @@ export default function ProductForm ({
 
                 <div className="mb-3">
                     <label className="block mb-2 text-sm font-medium text-emerald-900">Photos</label>
-                    <div className="mb-6">
+                    <div className="mb-6 flex flex-wrap gap-2">
+                        {!!images?.length && images.map(link => {
+                            return (
+                                <div key={link} className="h-24">
+                                    <img src={link} alt="" className="rounded-lg max-h-full" />
+                                </div>
+                                )
+                        })}
                         <label className="cursor-pointer w-24 h-24 flex items-center justify-center text-gray-500 rounded-lg bg-gray-100">
                             <div>
                                 <div className="flex justify-center">
