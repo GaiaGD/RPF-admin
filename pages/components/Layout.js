@@ -11,7 +11,7 @@ export default function Layout({children}) {
             <Nav />
             <div className="p-4 bg-white flex-grow text-emerald-900">
               <div>
-                <h3>{children}</h3>
+                {children}
               </div>
               <button onClick={() => signOut()} className='text-white bg-emerald-900 p-2 px-4 rounded-md mt-20'>Sign out</button>
             </div>

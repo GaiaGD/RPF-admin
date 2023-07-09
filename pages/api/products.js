@@ -6,13 +6,16 @@ import Product from '@/models/Product'
 import { mongooseConnect } from "@/lib/mongoose"
 
 export default async function handler(req, res) {
-    console.log(req)
     const {method} = req
     await mongooseConnect()
 
 
     if (method === 'GET') {
-      res.json( await Product.find())
+      if(req.query?.id){
+        res.json(await Product.findOne({_id:req.query.id}))
+      } else {
+        res.json(await Product.find())
+      }
     }
 
     
