@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useRouter } from "next/router";
+import Spinner from "./Spinner";
+import { ReactSortable } from "react-sortablejs";
 
 export default function ProductForm ({
     _id,
@@ -14,6 +16,13 @@ export default function ProductForm ({
     const [description, setDescription] = useState(existingDescription || '')
     const [price, setPrice] = useState(existingPrice || '')
     const [images, setImages] = useState(existingImages || '')
+
+    //_____ USE THIS LATER TO DELETE IMAGES
+    // useEffect(() => {
+    //     console.log(images)
+    // }, [images])
+
+    const [isUploading, setIsUploading] = useState(false)
 
     const [goToProducts, setGoToProducts] = useState(false)
 
@@ -42,6 +51,8 @@ export default function ProductForm ({
     async function uploadImages(e){
         const files = e.target?.files
         if(files?.length > 0){
+            // add a spinner while it is uploading
+            setIsUploading(true)
             const data = new FormData()
             for(const file of files){
                 data.append('file', file)
@@ -51,7 +62,14 @@ export default function ProductForm ({
             setImages(oldImages => {
                 return [...oldImages, ...res.data.links]
             })
+            // delete the spinner
+            setIsUploading(false)
         }
+    }
+
+    // this function comes from the component Sortable - it changes the order of the images and then set the new order of images ready to be uploaded again
+    function updateImagesOrder(images){
+        setImages(images)
     }
 
 
@@ -66,6 +84,7 @@ export default function ProductForm ({
                 <div className="mb-3">
                     <label className="block mb-2 text-sm font-medium text-emerald-900">Photos</label>
                     <div className="mb-6 flex flex-wrap gap-2">
+                        <ReactSortable className="flex flex-wrap gap-1" list={images} setList={updateImagesOrder}>
                         {!!images?.length && images.map(link => {
                             return (
                                 <div key={link} className="h-24">
@@ -73,6 +92,12 @@ export default function ProductForm ({
                                 </div>
                                 )
                         })}
+                        </ReactSortable>
+                        {isUploading && (
+                            <div className="w-24 h-24 border flex items-center rounded-lg justify-center gap-1">
+                                <Spinner />
+                            </div>
+                        )}
                         <label className="cursor-pointer w-24 h-24 flex items-center justify-center text-gray-500 rounded-lg bg-gray-100">
                             <div>
                                 <div className="flex justify-center">

@@ -27,13 +27,11 @@ export default async function handler(req, res) {
 
     const links = []
 
+    // adds all the uploads in a loop
     for (const file of files.file){
-
       const ext = file.originalFilename.split('.').pop()
       const newFileName = Date.now() + "." + ext
-
       // connect to AWS bucket
-      console.log({ext,file})
       await client.send(new PutObjectCommand({
         Bucket: bucketName,
         Key: newFileName,
@@ -42,9 +40,9 @@ export default async function handler(req, res) {
         ContentType : mime.lookup(file.path)
       }))
       const link = `https://${bucketName}.s3.amazonaws.com/${newFileName}`
+      // adds to the array of links
       links.push(link)
     }
-
     return res.json({links})
   }
 
