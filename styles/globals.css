@@ -25,3 +25,7 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+h1.page-names {
+  font-size: 1.5em;
+}

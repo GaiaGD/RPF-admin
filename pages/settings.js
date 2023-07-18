@@ -3,7 +3,7 @@ import Layout from "./components/Layout";
 export default function Settings(){
     return (
         <Layout>
-            settings
+            <h1 className="font-bold page-names">Settings</h1>
         </Layout>
     )
 }

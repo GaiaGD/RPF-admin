@@ -18,7 +18,7 @@ export default function Products(){
     return (
         <Layout>
             <div>
-                <Link className='bg-emerald-900 text-white p-2 px-4 rounded-md' href={'products/new'}>Add new products</Link>
+                <h1 className="font-bold page-names">Products</h1>
             </div>
             <table className="border w-full mt-5">
                 <thead className="border bg-green-100">
@@ -53,6 +53,9 @@ export default function Products(){
                     })}
                 </tbody>
             </table>
+            <div className="my-8">
+                <Link className='bg-emerald-900 text-white p-2 px-4 rounded-md' href={'products/new'}>Add new products</Link>
+            </div>
         </Layout>
     )
 }
