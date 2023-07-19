@@ -9,13 +9,24 @@ export default async function handler(req, res){
    await mongooseConnect()
 
    if (method === 'GET') {
-        res.json(await Category.find())
+        res.json(await Category.find().populate('parent'))
     }
 
-    if (method === 'POST'){
-        const {name} = req.body
-        const categoryDoc = await Category.create({name})
-        res.json(categoryDoc)
-    }
+    if (method === 'POST') {
+        const { name, parentCategory } = req.body;
+        let parentValue = null; // Set the default parent value to null
+      
+        if (parentCategory !== '') {
+          parentValue = parentCategory;
+        }
+      
+        const categoryDoc = await Category.create({
+          name,
+          parent: parentValue
+        });
+      
+        res.json(categoryDoc);
+      }
+      
 
 }
