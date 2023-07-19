@@ -28,7 +28,7 @@ export default function Products(){
                     </tr>
                 </thead>
                 <tbody>
-                    {products.map(product => {
+                    {products.length > 0 && products.map(product => {
                         return (
                             <tr className="border" key={product._id}>
                                 <td className="p-2">{product.name}</td>
