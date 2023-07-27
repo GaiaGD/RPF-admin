@@ -18,7 +18,7 @@ export default function ProductForm ({
     const [images, setImages] = useState(existingImages || '')
 
     const [categories, setCategories] = useState([])
-    const [category, setCategory] = useState("")
+    const [selectedCategory, setSelectedCategory] = useState("")
 
     //_____ USE THIS LATER TO DELETE IMAGES
     // useEffect(() => {
@@ -40,7 +40,8 @@ export default function ProductForm ({
 
     async function saveProduct(e) {
         e.preventDefault()
-        const data = {name, description, price, images, category}
+        const data = {name, description, price, images, selectedCategory}
+        console.log(data)
 
         if (_id) {
             //update product bringing id too along to match it with existing id
@@ -94,8 +95,8 @@ export default function ProductForm ({
                     <label className="block mb-2 text-sm font-medium text-emerald-900">Category</label>
                     <select
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        value={category}
-                        onChange={e => {setCategory(e.target.value)}}
+                        value={selectedCategory}
+                        onChange={e => {setSelectedCategory(e.target.value)}}
                     >
                         <option value="">Uncategorized</option>
                         {categories.length > 0 && categories.map(cat => {
