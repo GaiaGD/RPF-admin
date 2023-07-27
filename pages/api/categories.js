@@ -11,6 +11,7 @@ export default async function handler(req, res){
   if (method === 'GET') {
     res.json(await Category.find().populate('parent'))}
 
+  // adding category
   if (method === 'POST') {
     const { name, parentCategory } = req.body;
 
@@ -23,10 +24,11 @@ export default async function handler(req, res){
   
     res.json(categoryDoc);
   }
-      
+
+  // updating category
   if (method === 'PUT') {
-    const { name, parentCategory, dataId } = req.body;
-    const _id = dataId
+    const { name, parentCategory, _id } = req.body;
+    // const _id = dataId
 
     const categoryDoc = await Category.updateOne(
       // find the category to edit
@@ -37,4 +39,12 @@ export default async function handler(req, res){
     })
     res.json(categoryDoc)
   }
+
+  // deleting category - the method delete doesn't accept a body, so we transferred the id from the url, with a req.query
+  if (method === 'DELETE') {
+    const {_id} = req.query
+    await Category.deleteOne({_id})
+    res.json('ok')
+  }
+
 }

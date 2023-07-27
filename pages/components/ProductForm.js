@@ -17,6 +17,9 @@ export default function ProductForm ({
     const [price, setPrice] = useState(existingPrice || '')
     const [images, setImages] = useState(existingImages || '')
 
+    const [categories, setCategories] = useState([])
+    const [category, setCategory] = useState("")
+
     //_____ USE THIS LATER TO DELETE IMAGES
     // useEffect(() => {
     //     console.log(images)
@@ -28,9 +31,16 @@ export default function ProductForm ({
 
     const router = useRouter()
 
+    // fetching the categories from the categories api
+    useEffect(() => {
+        axios.get('/api/categories').then(result => {
+            setCategories(result.data)
+        })
+    }, [])
+
     async function saveProduct(e) {
         e.preventDefault()
-        const data = {name, description, price, images}
+        const data = {name, description, price, images, category}
 
         if (_id) {
             //update product bringing id too along to match it with existing id
@@ -79,6 +89,21 @@ export default function ProductForm ({
                 <div className="mb-3">
                     <label className="block mb-2 text-sm font-medium text-emerald-900">Product Name</label>
                     <input placeholder="e.g. Pond" value={name} onChange={e => setName(e.target.value)} id="newproduct-name" type="text" className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500" />
+                </div>
+                <div className="mb-3">
+                    <label className="block mb-2 text-sm font-medium text-emerald-900">Category</label>
+                    <select
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        value={category}
+                        onChange={e => {setCategory(e.target.value)}}
+                    >
+                        <option value="">Uncategorized</option>
+                        {categories.length > 0 && categories.map(cat => {
+                            return (
+                                <option key={cat._id} value={cat._id}>{cat.name}</option>
+                            )
+                        })}    
+                    </select>
                 </div>
 
                 <div className="mb-3">

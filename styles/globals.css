@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -15,17 +14,34 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
-
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
 h1.page-names {
   font-size: 1.5em;
 }
+
+.sweet-delete {
+  font-size: inherit;
+  font-weight: 200;
+  padding: 2em;
+  border-radius: 0.375rem;
+}
+.sweet-delete button {
+  border-radius: 0.375rem;
+}
+.sweet-delete .swal2-cancel {
+  border: 1px solid #064e3b;
+  background-color: #ffffff;
+  color: #064e3b;
+}
+.sweet-delete .swal2-confirm {
+  background-color: #F44E3B;
+}
+
+.sweet-delete .swal2-title {
+  font-weight: 400 !important;
+  font-size: inherit;
+}/*# sourceMappingURL=globals.css.map */
