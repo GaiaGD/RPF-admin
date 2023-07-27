@@ -5,20 +5,21 @@ import axios from "axios"
 
 export default function Categories(){
 
-    const [editedCategory, setEditedCategory] = useState(null)
-
     const [name, setName] = useState('')
     const [categories, setCategories] = useState([])
     const [parentCategory, setParentCategory] = useState('')
+
+    const [editedCategory, setEditedCategory] = useState(null)
 
     function fetchCategories(){
         axios.get('/api/categories').then(result => {
             setCategories(result.data)
         })    
     }
-
     function editCategory(category){
         setEditedCategory(category)
+        setName(category.name)
+        setParentCategory(category.parent?._id)
     }
 
     // AXIOS GETS ALL THE CATEGORIES FROM MONGODBD
@@ -28,18 +29,33 @@ export default function Categories(){
 
     async function saveCategory(e){
         e.preventDefault()
-        await axios.post('/api/categories', {name, parentCategory})
+
+        // if we clicked on edit, it will just update the existing one
+        if(editedCategory){
+            const dataId = editedCategory._id
+            console.log(dataId)
+            await axios.put('/api/categories', { name, parentCategory, dataId})
+            setEditedCategory(null)
+        // else it will add a new one
+        } else {
+            await axios.post('/api/categories', { name, parentCategory })
+        }
         setName('')
         fetchCategories()
     }
 
     return (
         <Layout>
-            <h1 className="font-bold page-names">New Category</h1>
+            <h1 className="font-bold page-names">Categories</h1>
             <div className="mt-3">
-                <label className="block mb-2 text-sm font-medium text-emerald-900">{editedCategory ? 'Edit Category' : 'Create new Category'}</label>
+                {/* using the input to either add a category or edit an existing */}
+                <label className="block mb-2 text-sm font-medium text-emerald-900">{editedCategory ? `Edit Category ${editedCategory.name}` : `Create new Category`}</label>
                 <div className="flex gap-1">
-                    <input placeholder={"Category Name"} onChange={e => setName(e.target.value)} type="text" className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500" />
+                    <input placeholder={"Category Name"}
+                        onChange={e => setName(e.target.value)}
+                        value={name}
+                        type="text"
+                        className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500" />
                     <select
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         value={parentCategory}
@@ -52,7 +68,7 @@ export default function Categories(){
                             )
                         })}    
                     </select>
-                    <button type="submit" value={name} onClick={saveCategory} className='bg-emerald-900 text-white p-2 px-4 rounded-md'>Save</button>
+                    <button type="submit" onClick={saveCategory} className='bg-emerald-900 text-white p-2 px-4 rounded-md'>Save</button>
                 </div>
             </div>
             <table className="border w-full mt-5">
