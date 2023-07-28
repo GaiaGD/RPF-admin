@@ -13,12 +13,13 @@ export default async function handler(req, res){
 
   // adding category
   if (method === 'POST') {
-    const { name, parentCategory } = req.body;
+    const { name, parentCategory, properties } = req.body;
 
     const categoryDoc = await Category.create({
       name: name,
       // if there's no parentCategory, it will be null
-      parent: parentCategory || null
+      parent: parentCategory || undefined,
+      properties: properties,
 
     });
   
@@ -27,7 +28,7 @@ export default async function handler(req, res){
 
   // updating category
   if (method === 'PUT') {
-    const { name, parentCategory, _id } = req.body;
+    const { name, parentCategory, properties, _id } = req.body;
     // const _id = dataId
 
     const categoryDoc = await Category.updateOne(
@@ -35,7 +36,8 @@ export default async function handler(req, res){
       {_id},
       {
         name,
-        parent: parentCategory
+        parent: parentCategory || undefined,
+        properties
     })
     res.json(categoryDoc)
   }
