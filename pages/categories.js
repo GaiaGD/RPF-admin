@@ -147,10 +147,7 @@ function Categories ({swal}){
             </div>
             <div className="mt-3">
                 <label>Properties</label>
-                <button
-                    onClick={addProperty}
-                    className='border-2 border-emerald-900 p-2 px-2 rounded-md block text-sm mt-2'>Add New Property
-                </button>
+
                 {/* once clicked on addProperties, the length is automatically one because it initializes it with name: '', values: ''*/}
                 {properties.length > 0 && properties.map((property, index) => {
                     return (
@@ -171,13 +168,21 @@ function Categories ({swal}){
                         </div>
                     )
                 })}
+                <button
+                    onClick={addProperty}
+                    className='bg-emerald-900 text-white p-2 px-4 rounded-md block mt-2'>Add New Property
+                </button>
             </div>
-            <div className="mt-12 flex gap-1">
+            <div className="mt-12 flex gap-1 w-full justify-between">
                 {/* only visible when entering the editing mode of a category, to exit editing mode and clearing the form */}
                 {editedCategory &&
                     <button type="button"
                         onClick={() => {setEditedCategory(null); setName(''); setParentCategory('')}}
-                        className='bg-red-500 text-white p-2 px-4 rounded-md'>Delete
+                        className='border-2 border-emerald-900 p-2 px-2 rounded-md block text-sm flex items-center'>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-1">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                        </svg>
+                        <span className="mr-3 flex">Go Back</span>
                     </button>
                 }
                 <button type="submit" onClick={saveCategory} className='bg-emerald-900 text-white p-2 px-4 rounded-md'>Save</button>

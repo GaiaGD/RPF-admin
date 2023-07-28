@@ -21,6 +21,9 @@ export default function ProductForm ({
     const [categories, setCategories] = useState([])
     const [selectedCategory, setSelectedCategory] = useState(existingSelectedCategory || '')
 
+    const [productProperties, setProductProperties] = useState({})
+
+    console.log(categories)
 
     //_____ USE THIS LATER TO DELETE IMAGES
     // useEffect(() => {
@@ -42,8 +45,12 @@ export default function ProductForm ({
 
     async function saveProduct(e) {
         e.preventDefault()
-        const data = {name, description, price, images, selectedCategory}
-        console.log(data)
+        const data = {name,
+                    description,
+                    price,
+                    images,
+                    selectedCategory,
+                    properties: productProperties}
 
         if (_id) {
             //update product bringing id too along to match it with existing id
@@ -85,6 +92,31 @@ export default function ProductForm ({
         setImages(images)
     }
 
+    // showing properties if the category has any
+    const propertiesToFill = []
+    if (categories.length > 0 && selectedCategory){
+        let selectedCategoryProperties = categories.find(({_id}) => _id === selectedCategory)
+        // find if it has a parent category
+        console.log(selectedCategoryProperties)
+        propertiesToFill.push(...selectedCategoryProperties.properties)
+        // now if it has a parent category, it will add the properties of the parent category too, it is a loop so as soon as it merges the property list will be
+        // verified again since it's merged value is called selectedCategoryProperties, and it will stop until the category doesn't have a parent
+        while (selectedCategoryProperties?.parent?._id){
+            const parentSelectedCategory = categories.find(({_id}) => _id === selectedCategoryProperties?.parent._id)
+            propertiesToFill.push(...parentSelectedCategory.properties)
+            selectedCategoryProperties = parentSelectedCategory
+        }
+    }
+
+    // adding the categories' provided properties selected from the dropdown menu to the product
+    function addProductProperties(propertyName, propertyValues){
+        setProductProperties( prev => {
+            const newProductProperties = {...prev}
+            newProductProperties[propertyName] = propertyValues
+            return newProductProperties
+        })
+    }
+
 
     return (
             <div className="mt-6">
@@ -107,6 +139,25 @@ export default function ProductForm ({
                             )
                         })}    
                     </select>
+                </div>
+                
+                {/* showing if there's any parent category to the category we're assigning */}
+                <div className="my-8">
+                    {propertiesToFill.length > 0 && propertiesToFill.map( p => (
+                        <div className="flex items-center gap-1 w-6/12 mb-2" key="">
+                            <div className="flex align-center w-1/3"><p>{p.name}</p></div>
+                            <select
+                                onChange={e => addProductProperties(p.name, e.target.value)}
+                                value={productProperties[p.name]}
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/3 p-2">
+                                {p.values.map (v => (
+                                    <option key="" value={v}>{v}</option>
+                                ))
+                                }
+                            </select>
+                        </div>
+                        )
+                    )}
                 </div>
 
                 <div className="mb-3">
