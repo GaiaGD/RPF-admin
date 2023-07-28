@@ -8,9 +8,11 @@ import { withSwal } from "react-sweetalert2"
 // creating the component and it will have swal (plug in for a cool popup window to delete categories) as a prop
 
 function Categories ({swal}){
-        const [name, setName] = useState('')
+    const [name, setName] = useState('')
     const [categories, setCategories] = useState([])
     const [parentCategory, setParentCategory] = useState('')
+
+    const [properties, setProperties] = useState([])
 
     const [editedCategory, setEditedCategory] = useState(null)
 
@@ -70,6 +72,30 @@ function Categories ({swal}){
         fetchCategories()
     }
 
+    // this creates an array of properties, and adds them one by one
+    function addProperty() {
+        console.log(properties.length)
+        setProperties(prev => {
+            return [...prev, {name: '', values: ''}]
+        })
+    }
+
+    function handlePropertyNameChange(index, property, newName) {
+        setProperties(prev => {
+            const properties = [...prev];
+            properties[index].name = newName
+            return properties
+        })
+    }
+
+    function handlePropertyValuesChange(index, property, newValues) {
+        setProperties(prev => {
+            const properties = [...prev];
+            properties[index].values = newValues
+            return properties
+        })
+    }
+
     return (
         <Layout>
             <h1 className="font-bold page-names">Categories</h1>
@@ -95,10 +121,40 @@ function Categories ({swal}){
                             )
                         })}    
                     </select>
-                    <button type="submit" onClick={saveCategory} className='bg-emerald-900 text-white p-2 px-4 rounded-md'>Save</button>
                 </div>
             </div>
-            <table className="border w-full mt-5">
+            <div className="mt-3">
+                <label>Properties</label>
+                <button
+                    onClick={addProperty}
+                    className='border-2 border-emerald-900 p-1 px-2 rounded-md block text-sm mt-2'>Add New Property
+                </button>
+                {/* once clicked on addProperties, the length is automatically one because it initializes it with name: '', values: ''*/}
+                {properties.length > 0 && properties.map((property, index) => {
+                    return (
+                        <div key={index} className="flex gap-1 mt-1">
+                            <input
+                                value={property.name}
+                                onChange={e => handlePropertyNameChange(index, property, e.target.value)}
+                                className="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
+                                type="text" placeholder="property name (e.g.: color)" />
+                            <input
+                                value={property.values}
+                                onChange={e => handlePropertyValuesChange(index, property, e.target.value)}
+                                className="block w-full p-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
+                                type="text" placeholder="values, separated by commas" />
+                            <button className="">Remove</button>
+
+                        </div>
+                    )
+                })}
+            </div>
+            <div className="mt-2">
+                <button type="submit" onClick={saveCategory} className='bg-emerald-900 text-white p-2 px-4 rounded-md'>Save</button>
+            </div>
+            
+
+            <table className="border w-full mt-6">
                 <thead className="border bg-green-100">
                     <tr>
                         <td className="p-2">Category Name</td>

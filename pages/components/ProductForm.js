@@ -9,16 +9,18 @@ export default function ProductForm ({
     name: existingName,
     description: existingDescription,
     price: existingPrice,
-    images: existingImages
+    images: existingImages,
+    category: existingSelectedCategory
 }) {
 
-    const [name, setName] = useState(existingName || "")
+    const [name, setName] = useState(existingName || '')
     const [description, setDescription] = useState(existingDescription || '')
     const [price, setPrice] = useState(existingPrice || '')
     const [images, setImages] = useState(existingImages || '')
 
     const [categories, setCategories] = useState([])
-    const [selectedCategory, setSelectedCategory] = useState("")
+    const [selectedCategory, setSelectedCategory] = useState(existingSelectedCategory || '')
+
 
     //_____ USE THIS LATER TO DELETE IMAGES
     // useEffect(() => {

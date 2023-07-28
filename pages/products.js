@@ -15,6 +15,8 @@ export default function Products(){
         })
     }, [])
 
+    console.log(products)
+    
     return (
         <Layout>
             <div>
