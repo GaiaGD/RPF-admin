@@ -10,20 +10,19 @@ export default function ProductForm ({
     description: existingDescription,
     price: existingPrice,
     images: existingImages,
-    category: existingSelectedCategory
+    category: existingSelectedCategory,
+    properties: existingProperties
 }) {
 
     const [name, setName] = useState(existingName || '')
     const [description, setDescription] = useState(existingDescription || '')
     const [price, setPrice] = useState(existingPrice || '')
     const [images, setImages] = useState(existingImages || '')
-
-    const [categories, setCategories] = useState([])
     const [selectedCategory, setSelectedCategory] = useState(existingSelectedCategory || '')
+    const [productProperties, setProductProperties] = useState(existingProperties || {})
 
-    const [productProperties, setProductProperties] = useState({})
-
-    console.log(categories)
+    // can't use existing categories because they come from the categories array, not the product itself
+    const [categories, setCategories] = useState([])
 
     //_____ USE THIS LATER TO DELETE IMAGES
     // useEffect(() => {
@@ -49,7 +48,7 @@ export default function ProductForm ({
                     description,
                     price,
                     images,
-                    selectedCategory,
+                    category: selectedCategory,
                     properties: productProperties}
 
         if (_id) {
@@ -97,7 +96,6 @@ export default function ProductForm ({
     if (categories.length > 0 && selectedCategory){
         let selectedCategoryProperties = categories.find(({_id}) => _id === selectedCategory)
         // find if it has a parent category
-        console.log(selectedCategoryProperties)
         propertiesToFill.push(...selectedCategoryProperties.properties)
         // now if it has a parent category, it will add the properties of the parent category too, it is a loop so as soon as it merges the property list will be
         // verified again since it's merged value is called selectedCategoryProperties, and it will stop until the category doesn't have a parent
@@ -144,14 +142,14 @@ export default function ProductForm ({
                 {/* showing if there's any parent category to the category we're assigning */}
                 <div className="my-8">
                     {propertiesToFill.length > 0 && propertiesToFill.map( p => (
-                        <div className="flex items-center gap-1 w-6/12 mb-2" key="">
+                        <div className="flex items-center gap-1 w-6/12 mb-2" key={p}>
                             <div className="flex align-center w-1/3"><p>{p.name}</p></div>
                             <select
                                 onChange={e => addProductProperties(p.name, e.target.value)}
                                 value={productProperties[p.name]}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/3 p-2">
                                 {p.values.map (v => (
-                                    <option key="" value={v}>{v}</option>
+                                    <option key={v} value={v}>{v}</option>
                                 ))
                                 }
                             </select>

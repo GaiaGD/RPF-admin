@@ -27,4 +27,15 @@ export default NextAuth({
     // }),
   ],
   adapter: MongoDBAdapter(clientPromise),
+
+  // callbacks: {
+  //   async session({ session, token, user }) {
+  //     // Send properties to the client, like an access_token and user id from a provider.
+  //     session.accessToken = token.accessToken
+  //     session.user.id = token.id
+  //     console.log(session)
+  //     return session
+  //   }
+  // }
+
 })
