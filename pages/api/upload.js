@@ -2,10 +2,17 @@ import multiparty from 'multiparty'
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import fs from 'fs'
 import mime from 'mime-types'
+import { mongooseConnect } from "@/lib/mongoose"
+await isAdminRequest(req, res)
+
 
 const bucketName = 'rockpondfish'
 
 export default async function handler(req, res) {
+
+  await mongooseConnect()
+  await isAdminRequest(req, res)
+
     // we're telling next not to parse our response, but we will parse it
     const form = new multiparty.Form()
 
