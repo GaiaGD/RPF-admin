@@ -124,7 +124,7 @@ function Categories ({swal}){
             <div className="mt-3">
                 {/* using the input to either add a category or edit an existing */}
                 <label className="block mb-2 text-sm font-medium text-emerald-900">{editedCategory ? `Edit Category: ${editedCategory.name}` : `Create new Category`}</label>
-                <div className="flex gap-1">
+                <div className="flex md:flex-row flex-col gap-1">
                     <input placeholder={"Category Name"}
                         onChange={e => setName(e.target.value)}
                         value={name}

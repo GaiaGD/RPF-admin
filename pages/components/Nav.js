@@ -2,10 +2,12 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useSession, signIn, signOut } from "next-auth/react"
 
+import Logo from "./Logo"
+
 export default function Nav ({show}) {
 
     const inactiveLink = "flex gap-1 my-2 p-1"
-    const activeLink = inactiveLink + " bg-white text-emerald-900 rounded-l-md"
+    const activeLink = inactiveLink + " bg-white text-emerald-900 md:rounded-none md:rounded-l-md rounded-md mr-4 md:mr-0"
 
     const router = useRouter()
     const {pathname} = router
@@ -15,19 +17,14 @@ export default function Nav ({show}) {
         await signOut()
     }
 
-    console.log(show)
-
     return (
-        <aside className={(show? 'left-0' : "-left-full") + " p-4 pr-0 fixed w-full h-full md:static md:w-auto bg-emerald-900"}>
-            <Link href={"/"} className="flex gap-1 mb-5 mr-4">
+        <aside className={(show? 'left-0' : "-left-full") + " p-4 pr-0 fixed w-full h-full md:static md:w-auto bg-emerald-900 transition-all"}>
 
-              {/* logo */}
-
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mr-2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819" />
-                </svg>
-                <span>RockPondFish Admin</span>
-            </Link>
+            <div className="md:block hidden">
+                <Link href={"/"} className="flex gap-1 mb-5 mr-4">
+                    <Logo />
+                </Link>
+            </div>
 
             <nav className="flex flex-col">
                 <Link href={"/"} className={pathname === '/' ? activeLink : inactiveLink}>

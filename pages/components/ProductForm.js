@@ -142,7 +142,7 @@ export default function ProductForm ({
                 {/* showing if there's any parent category to the category we're assigning */}
                 <div className="my-8">
                     {propertiesToFill.length > 0 && propertiesToFill.map( p => (
-                        <div className="flex items-center gap-1 w-6/12 mb-2" key={p}>
+                        <div className="flex items-center gap-1 md:w-6/12 w-full mb-2" key={p}>
                             <div className="flex align-center w-1/3"><p>{p.name}</p></div>
                             <select
                                 onChange={e => addProductProperties(p.name, e.target.value)}
