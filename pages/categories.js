@@ -146,32 +146,33 @@ function Categories ({swal}){
                 </div>
             </div>
             <div className="mt-3">
-                <label>Properties</label>
+                <label className="text-sm">Properties</label>
+                { properties.length == 0 && <p className="text-xs mt-2 text-slate-300">No Properties</p> }
 
                 {/* once clicked on addProperties, the length is automatically one because it initializes it with name: '', values: ''*/}
+                
                 {properties.length > 0 && properties.map((property, index) => {
                     return (
-                        <div key={index} className="flex gap-1 mt-1">
-                            <input
-                                value={property.name}
-                                onChange={e => handlePropertyNameChange(index, property, e.target.value)}
-                                className="block w-full h-11 px-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
-                                type="text" placeholder="property name (e.g.: color)" />
-                            <input
-                                value={property.values}
-                                onChange={e => handlePropertyValuesChange(index, property, e.target.value)}
-                                className="block w-full h-11 px-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
-                                type="text" placeholder="values, separated by commas" />
-                            <button
-                                onClick={e => removeProperty(index)}
-                                type="button" className='border-2 border-emerald-900 p-2 px-2 rounded-md block text-sm'>Remove</button>
-                        </div>
+                        <>
+                            <div key={index} className="flex gap-1 mt-1">
+                                <input
+                                    value={property.name}
+                                    onChange={e => handlePropertyNameChange(index, property, e.target.value)}
+                                    className="block w-full h-11 px-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
+                                    type="text" placeholder="property name (e.g.: color)" />
+                                <input
+                                    value={property.values}
+                                    onChange={e => handlePropertyValuesChange(index, property, e.target.value)}
+                                    className="block w-full h-11 px-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500"
+                                    type="text" placeholder="values, separated by commas" />
+                                <button
+                                    onClick={e => removeProperty(index)}
+                                    type="button" className='border-2 border-emerald-900 p-2 px-2 rounded-md block text-sm'>Remove</button>
+                            </div>
+                        </>
                     )
                 })}
-                <button
-                    onClick={addProperty}
-                    className='bg-emerald-900 text-white p-2 px-4 rounded-md block mt-2'>Add New Property
-                </button>
+
             </div>
             <div className="mt-12 flex gap-1 w-full justify-between">
                 {/* only visible when entering the editing mode of a category, to exit editing mode and clearing the form */}
@@ -185,7 +186,20 @@ function Categories ({swal}){
                         <span className="mr-3 flex">Go Back</span>
                     </button>
                 }
-                <button type="submit" onClick={saveCategory} className='bg-emerald-900 text-white p-2 px-4 rounded-md'>Save</button>
+
+                <div className="flex align-middle">
+
+                    <button
+                        onClick={addProperty}
+                        className='block underline'>Add New Property
+                    </button>
+
+                    <p className="my-auto mx-2">or</p>
+
+                    <button type="submit" onClick={saveCategory} className='bg-emerald-900 text-white p-2 px-4 rounded-md'>Save Category</button>
+
+                </div>
+
             </div>
 
             {/* hiding the table when we enter edit mode in a category  */}

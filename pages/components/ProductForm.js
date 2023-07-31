@@ -35,6 +35,7 @@ export default function ProductForm ({
 
     const router = useRouter()
 
+
     // fetching the categories from the categories api
     useEffect(() => {
         axios.get('/api/categories').then(result => {
@@ -93,6 +94,10 @@ export default function ProductForm ({
 
     // showing properties if the category has any
     const propertiesToFill = []
+
+    console.log("selectedCategory: ", selectedCategory)
+
+
     if (categories.length > 0 && selectedCategory){
         let selectedCategoryProperties = categories.find(({_id}) => _id === selectedCategory)
         // find if it has a parent category
