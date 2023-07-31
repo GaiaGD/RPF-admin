@@ -193,9 +193,7 @@ function Categories ({swal}){
                         onClick={addProperty}
                         className='block underline'>Add New Property
                     </button>
-
                     <p className="my-auto mx-2">or</p>
-
                     <button type="submit" onClick={saveCategory} className='bg-emerald-900 text-white p-2 px-4 rounded-md'>Save Category</button>
 
                 </div>

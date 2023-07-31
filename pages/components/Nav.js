@@ -6,6 +6,8 @@ import Logo from "./Logo"
 
 export default function Nav ({show}) {
 
+    const { data: session } = useSession()
+
     const inactiveLink = "flex gap-1 my-2 p-1"
     const activeLink = inactiveLink + " bg-white text-emerald-900 md:rounded-none md:rounded-l-md rounded-md mr-4 md:mr-0"
 
@@ -60,7 +62,15 @@ export default function Nav ({show}) {
                     </svg>
                     <span>Settings</span>
                 </Link>
-                <button onClick={logout} className={`${inactiveLink} text-white bg-emerald-900 p-1 rounded-md mt-16`}>
+
+                <div className="block md:hidden  mt-16">
+                      <div className="rounded-full flex items-center bg-gray-300 gap-1 text-emerald-900 rounded-full p-2 mr-2">
+                        <img className="w-6 h-6 rounded-full" src={session?.user?.image} />
+                        <h3 className="h-6">{session?.user?.name}</h3>
+                      </div>
+                </div>
+
+                <button onClick={logout} className={`${inactiveLink} text-white bg-emerald-900 p-1 rounded-md mt-4 md:mt-16`}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
                   </svg>
