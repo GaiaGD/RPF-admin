@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { useSession, signIn, signOut } from "next-auth/react"
 import Logo from "./Logo"
 
-export default function Nav () {
+export default function Nav ({show}) {
 
     const inactiveLink = "flex gap-1 my-2 p-1"
     const activeLink = inactiveLink + " bg-white text-emerald-900 rounded-l-md"
@@ -16,8 +16,10 @@ export default function Nav () {
         await signOut()
     }
 
+    console.log(show)
+
     return (
-        <aside className="p-4 pr-0">
+        <aside className={(show? 'left-0' : "-left-full") + " p-4 pr-0 fixed w-full h-full md:static md:w-auto bg-emerald-900"}>
             <Link href={"/"} className="flex gap-1 mb-5 mr-4">
                 <Logo />
             </Link>
