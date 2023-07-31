@@ -4,7 +4,7 @@ import NextAuth, { getServerSession } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 // import EmailProvider from 'next-auth/providers/email'
 
-const adminEmails = ['gaia.digregorio@gmail.com']
+const adminEmails = ['gaia.digregorio@gmail.com', 'virginia.zigni@gmail.com', 'gaia.digregorio22@gmail.com']
 
 export const authOption = {
   providers: [
