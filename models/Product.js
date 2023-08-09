@@ -7,7 +7,10 @@ const ProductSchema = new mongoose.Schema({
   images: [{ type: String }],
   category: {type: mongoose.Types.ObjectId, ref: "Category"},
   properties: { type: Object }
-});
+}, {
+  timestamps: true,
+}
+);
 
 
 const Product = mongoose.models.Product || mongoose.model('Product', ProductSchema);
