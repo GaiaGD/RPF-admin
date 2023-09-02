@@ -21,6 +21,7 @@ export default function Orders(){
                     <thead className="border bg-green-100">
                         <tr>
                             <td className="p-2">Date</td>
+                            <td className="p-2">Paid</td>
                             <td className="p-2">Recepient</td>
                             <td className="p-2">Products</td>
                         </tr>
@@ -29,6 +30,9 @@ export default function Orders(){
                         {orders.length > 0 && orders.map(ord => (
                             <tr key={nanoid()}>
                                 <td>{(new Date(ord.createdAt)).toLocaleString()}</td>
+                                <td className={ord.paid ? 'text-green-600' : 'text-red-600'}>
+                                    {ord.paid ? 'Yes' : 'No'}
+                                </td>
                                 <td>
                                     {ord.firstname} {ord.lastname}<br/>
                                     {ord.email}<br/>
