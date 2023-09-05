@@ -95,8 +95,6 @@ export default function ProductForm ({
     // showing properties if the category has any
     const propertiesToFill = []
 
-    console.log("selectedCategory: ", selectedCategory)
-
 
     if (categories.length > 0 && selectedCategory){
         let selectedCategoryProperties = categories.find(({_id}) => _id === selectedCategory)

@@ -10,7 +10,7 @@ export default function Orders(){
         axios.get('api/orders').then(response => {
             setOrders(response.data)
         })
-        console.log(orders)
+        // console.log(orders)
     }, [])
 
     return (
